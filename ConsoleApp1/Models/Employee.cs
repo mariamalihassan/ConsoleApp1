@@ -12,14 +12,17 @@ namespace ConsoleApp1.Models
 	{
 		[Key]
 		public int EmpId { get; set; }
-		public string Name { get; set; } = default!;
-		public string? Address { get; set; }
+		
+		public  string Name { get; set; } = default!;
+		
 		public decimal Salary { get; set; }
 
-		public Car Car { get; set; }
+		
 
 		public Employee? Manager { get; set; }
 		public int? ManagerId { get; set; }
+
+		public Address HomeAddress { get; set; }
 
 
 

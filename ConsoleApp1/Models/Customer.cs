@@ -18,6 +18,8 @@ namespace ConsoleApp1.Models
 
 		public ICollection<CustomerService> CustomerServices { get; set; } = new HashSet<CustomerService>();
 
+		public Address ShippingAddress { get; set; }
+
 
 
 	}

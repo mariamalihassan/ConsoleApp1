@@ -4,6 +4,7 @@ using ConsoleApp1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260419183300_Employee01")]
+    partial class Employee01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,46 +103,13 @@ namespace ConsoleApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Name = "Customer 01"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Name = "Customer 02"
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            Name = "Customer 03"
-                        });
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
@@ -272,36 +242,6 @@ namespace ConsoleApp1.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.Models.Customer", b =>
-                {
-                    b.OwnsOne("ConsoleApp1.Models.Address", "ShippingAddress", b1 =>
-                        {
-                            b1.Property<int>("CustomerId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar")
-                                .HasColumnName("ShippingCity");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-                        });
-
-                    b.Navigation("ShippingAddress")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
                 {
                     b.HasOne("ConsoleApp1.Models.Customer", "Customer")
@@ -327,31 +267,6 @@ namespace ConsoleApp1.Migrations
                         .WithMany()
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction);
-
-                    b.OwnsOne("ConsoleApp1.Models.Address", "HomeAddress", b1 =>
-                        {
-                            b1.Property<int>("EmployeeEmpId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("EmployeeEmpId");
-
-                            b1.ToTable("Employees");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EmployeeEmpId");
-                        });
-
-                    b.Navigation("HomeAddress")
-                        .IsRequired();
 
                     b.Navigation("Manager");
                 });

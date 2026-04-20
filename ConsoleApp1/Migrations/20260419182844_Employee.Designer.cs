@@ -4,6 +4,7 @@ using ConsoleApp1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260419182844_Employee")]
+    partial class Employee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,6 +65,23 @@ namespace ConsoleApp1.Migrations
                     b.ToTable("BookPublisher");
                 });
 
+            modelBuilder.Entity("ConsoleApp1.Models.Car", b =>
+                {
+                    b.Property<int>("EmpId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EmpId");
+
+                    b.ToTable("Employees", (string)null);
+                });
+
             modelBuilder.Entity("ConsoleApp1.Models.Course", b =>
                 {
                     b.Property<int>("Id")
@@ -100,46 +120,13 @@ namespace ConsoleApp1.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            CustomerId = 1,
-                            Name = "Customer 01"
-                        },
-                        new
-                        {
-                            CustomerId = 2,
-                            Name = "Customer 02"
-                        },
-                        new
-                        {
-                            CustomerId = 3,
-                            Name = "Customer 03"
-                        });
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
@@ -272,34 +259,15 @@ namespace ConsoleApp1.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.Models.Customer", b =>
+            modelBuilder.Entity("ConsoleApp1.Models.Car", b =>
                 {
-                    b.OwnsOne("ConsoleApp1.Models.Address", "ShippingAddress", b1 =>
-                        {
-                            b1.Property<int>("CustomerId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .HasMaxLength(50)
-                                .HasColumnType("varchar")
-                                .HasColumnName("ShippingCity");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("CustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("CustomerId");
-                        });
-
-                    b.Navigation("ShippingAddress")
+                    b.HasOne("ConsoleApp1.Models.Employee", "Employee")
+                        .WithOne("Car")
+                        .HasForeignKey("ConsoleApp1.Models.Car", "EmpId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
@@ -328,31 +296,6 @@ namespace ConsoleApp1.Migrations
                         .HasForeignKey("ManagerId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.OwnsOne("ConsoleApp1.Models.Address", "HomeAddress", b1 =>
-                        {
-                            b1.Property<int>("EmployeeEmpId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("EmployeeEmpId");
-
-                            b1.ToTable("Employees");
-
-                            b1.WithOwner()
-                                .HasForeignKey("EmployeeEmpId");
-                        });
-
-                    b.Navigation("HomeAddress")
-                        .IsRequired();
-
                     b.Navigation("Manager");
                 });
 
@@ -377,6 +320,12 @@ namespace ConsoleApp1.Migrations
                     b.Navigation("CustomerServices");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("ConsoleApp1.Models.Employee", b =>
+                {
+                    b.Navigation("Car")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Service", b =>
