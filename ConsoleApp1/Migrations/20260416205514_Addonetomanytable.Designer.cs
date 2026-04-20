@@ -4,6 +4,7 @@ using ConsoleApp1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260416205514_Addonetomanytable")]
+    partial class Addonetomanytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,46 +24,6 @@ namespace ConsoleApp1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("ConsoleApp1.Models.Book", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Books", (string)null);
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.BookPublisher", b =>
-                {
-                    b.Property<int>("PublisherId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PublisherId"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PublisherId1")
-                        .HasColumnType("int");
-
-                    b.HasKey("PublisherId");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("PublisherId1");
-
-                    b.ToTable("BookPublisher", (string)null);
-                });
 
             modelBuilder.Entity("ConsoleApp1.Models.Car", b =>
                 {
@@ -123,22 +86,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
-                {
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomerId", "ServiceId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.ToTable("CustomerService", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Employee", b =>
@@ -185,41 +133,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasIndex("CusId");
 
-                    b.ToTable("Orders", (string)null);
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.Publisher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("publishers", (string)null);
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.Service", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Test", b =>
@@ -232,26 +146,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("TId");
 
-                    b.ToTable("Test", (string)null);
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.BookPublisher", b =>
-                {
-                    b.HasOne("ConsoleApp1.Models.Book", "Book")
-                        .WithMany("BookPublisher")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ConsoleApp1.Models.Publisher", "Publisher")
-                        .WithMany()
-                        .HasForeignKey("PublisherId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("Publisher");
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Car", b =>
@@ -265,25 +160,6 @@ namespace ConsoleApp1.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
-                {
-                    b.HasOne("ConsoleApp1.Models.Customer", "Customer")
-                        .WithMany("CustomerServices")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ConsoleApp1.Models.Service", "Service")
-                        .WithMany("CustomerServices")
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Service");
-                });
-
             modelBuilder.Entity("ConsoleApp1.Models.Order", b =>
                 {
                     b.HasOne("ConsoleApp1.Models.Customer", "OrderCustomer")
@@ -295,15 +171,8 @@ namespace ConsoleApp1.Migrations
                     b.Navigation("OrderCustomer");
                 });
 
-            modelBuilder.Entity("ConsoleApp1.Models.Book", b =>
-                {
-                    b.Navigation("BookPublisher");
-                });
-
             modelBuilder.Entity("ConsoleApp1.Models.Customer", b =>
                 {
-                    b.Navigation("CustomerServices");
-
                     b.Navigation("Orders");
                 });
 
@@ -311,11 +180,6 @@ namespace ConsoleApp1.Migrations
                 {
                     b.Navigation("Car")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ConsoleApp1.Models.Service", b =>
-                {
-                    b.Navigation("CustomerServices");
                 });
 #pragma warning restore 612, 618
         }

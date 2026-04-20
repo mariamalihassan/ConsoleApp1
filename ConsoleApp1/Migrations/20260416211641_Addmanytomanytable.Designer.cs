@@ -4,6 +4,7 @@ using ConsoleApp1;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConsoleApp1.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260416211641_Addmanytomanytable")]
+    partial class Addmanytomanytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.BookPublisher", b =>
@@ -59,7 +62,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasIndex("PublisherId1");
 
-                    b.ToTable("BookPublisher", (string)null);
+                    b.ToTable("BookPublisher");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Car", b =>
@@ -123,7 +126,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.CustomerService", b =>
@@ -138,7 +141,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.ToTable("CustomerService", (string)null);
+                    b.ToTable("CustomerService");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Employee", b =>
@@ -185,7 +188,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasIndex("CusId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Publisher", b =>
@@ -202,7 +205,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("publishers", (string)null);
+                    b.ToTable("publishers");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Service", b =>
@@ -219,7 +222,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Services", (string)null);
+                    b.ToTable("Services");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.Test", b =>
@@ -232,7 +235,7 @@ namespace ConsoleApp1.Migrations
 
                     b.HasKey("TId");
 
-                    b.ToTable("Test", (string)null);
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("ConsoleApp1.Models.BookPublisher", b =>
