@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1.Models
 {
-	internal class Order
+	public class Order
 	{
 		public int OrderId { get; set; }
 		public string Name { get; set; }
 
-		public Customer OrderCustomer { get; set; }
+		public virtual Customer OrderCustomer { get; set; }
 		
 		public int CusId { get; set; }
 

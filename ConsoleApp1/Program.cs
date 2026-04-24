@@ -9,6 +9,7 @@ namespace ConsoleApp1
         static async Task Main(string[] args)
         {
 
+			#region Session01
 			//addmigration  ==> removemigration
 			//update database==> remove migartion-force, Update-Databe 0
 
@@ -28,7 +29,8 @@ namespace ConsoleApp1
 			//        string env= Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Dev";
 			//        if (env == "Dev")
 			//optionbuilder.UseSqlServer("Server=.;Database=EfCore01;Trusted_Connection=true,TrustServerCertificate=true");
-			//        using AppDbContext dbContext = new AppDbContext(optionbuilder.Options);
+			//        using AppDbContext dbContext = new AppDbContext(optionbuilder.Options); 
+			#endregion
 
 
 			using AppDbContext dbContext = new AppDbContext();
@@ -130,28 +132,136 @@ namespace ConsoleApp1
 			//dbContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.TrackAll;
 			////Tracked
 
-			dbContext.Database.Migrate();
+			#region Seeddata
+			//dbContext.Database.Migrate();
 
-			if (!dbContext.Customers.Any())
-			{
-				
-				{
-				  dbContext.Customers.Add(new Customer(){Name="Customer 01"});
-					  dbContext.Customers.Add(new Customer(){Name="Customer 02"});
-	  dbContext.Customers.Add(new Customer(){Name="Customer 03"});
+			//if (!dbContext.Customers.Any())
+			//{
 
-					int result= dbContext.SaveChanges();
-					if(result != 0)
-						Console.WriteLine("Customer data seed");
-					else
-						Console.WriteLine("Failed to seed");
+			//	{
+			//	  dbContext.Customers.Add(new Customer(){Name="Customer 01"});
+			//		  dbContext.Customers.Add(new Customer(){Name="Customer 02"});
+			//dbContext.Customers.Add(new Customer(){Name="Customer 03"});
 
-				};
+			//		int result= dbContext.SaveChanges();
+			//		if(result != 0)
+			//			Console.WriteLine("Customer data seed");
+			//		else
+			//			Console.WriteLine("Failed to seed");
 
-
+			//	};
 
 
-				}
+
+
+			//	} 
+			#endregion
+
+			#region Problem
+			//var order= dbContext.Orders.FirstOrDefault(x=>x.OrderId == 1);	
+			//if(order != null)
+			//{
+			//	Console.WriteLine($"OrderId= {order.OrderId}");
+			//	Console.WriteLine($"OrderName {order.Name}");
+			//	Console.WriteLine($"CusId = {order.CusId}");
+			//	Console.WriteLine($"CusId= {order.OrderCustomer.CustomerId}");//ex
+			//}
+
+			//var order = dbContext.Orders.Select(o => new
+			//{
+			//	OrderId = o.OrderId,
+			//	OrderName = o.Name,
+			//	CusId = o.CusId,
+			//	CusName = o.OrderCustomer.Name
+
+			//}).FirstOrDefault(x=>x.OrderId==1);
+
+			//if (order != null)
+			//{
+			//	Console.WriteLine($"OrderId= {order.OrderId}");
+			//	Console.WriteLine($"OrderName {order.OrderName}");
+			//	Console.WriteLine($"CusId = {order.CusId}");
+			//	Console.WriteLine($"CusName= {order.CusName}");
+			//}
+
+			#endregion
+
+
+			#region Include
+			//var order = dbContext.Orders.Include(o=>o.OrderCustomer).FirstOrDefault(x => x.OrderId == 1);
+
+			//if (order != null)
+			//{
+			//	Console.WriteLine($"OrderId= {order.OrderId}");
+			//	Console.WriteLine($"OrderName {order.Name}");
+			//	Console.WriteLine($"CusId = {order.CusId}");
+			//	Console.WriteLine($"CusName= {order.OrderCustomer.Name}");
+			//}
+
+			//var customer= dbContext.Customers.Include(C=>C.Orders).Include(c=>c.CustomerServices).FirstOrDefault(x => x.CustomerId == 1);
+
+			//if (customer != null)
+			//{
+			//	Console.WriteLine($"CustoemerId={customer.CustomerId}");
+			//	Console.WriteLine($"CustomerOrder={customer.Orders.Count()}");
+			//	Console.WriteLine($"CustomerService={customer.CustomerServices.Count()}");
+			//}
+
+			//var customer= dbContext.Customers.Include(x=>x.CustomerServices).ThenInclude(cs=>cs.Service).FirstOrDefault(x => x.CustomerId == 1);
+			//if (customer != null)
+			//{
+			//	Console.WriteLine($"CustomerName={customer.Name}");
+			//	Console.WriteLine($"Service {customer.CustomerServices.Count()}");
+			//	foreach (var item in customer.CustomerServices)
+			//	{
+			//		Console.WriteLine($"ServiceName={item.Service.Name}");
+			//	}
+			//} 
+			#endregion
+
+			//var customer = dbContext.Customers.Include(x => x.Orders)
+			//	.Include(x => x.CustomerServices).AsSplitQuery();
+
+
+			#region Explicitloading
+			//var order = dbContext.Orders.FirstOrDefault(x => x.OrderId == 1);
+			//if(order != null)
+			//{
+			//	Console.WriteLine($"order CustomerId {order.CusId}");
+			//	//Console.WriteLine($"Customername = {order.OrderCustomer.Name}");
+			//	dbContext.Entry(order).Reference(o=>o.OrderCustomer).Load();
+			//	Console.WriteLine($"Customername = {order.OrderCustomer.Name}");
+
+
+			//}
+
+
+
+			//var customer = dbContext.Customers.FirstOrDefault(x => x.CustomerId == 1);
+			//if (customer != null)
+			//{
+			//	Console.WriteLine($"CusName {customer.Name}");
+			//	dbContext.Entry(customer).Collection(c => c.Orders).Load();
+			//	foreach (var order in customer.Orders)
+			//	{
+			//		Console.WriteLine($"OrderName {order.Name}");
+			//	}
+			//}
+			#endregion
+
+
+			//var order = dbContext.Orders.FirstOrDefault(x => x.OrderId == 1);
+			//if(order != null)
+			//{
+			//	Console.WriteLine($"Name {order.Name}");
+			//	Console.WriteLine($"Order customername {order.OrderCustomer.Name}");
+			//}
+
+
+
+
+
+
 
 
 

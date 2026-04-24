@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace ConsoleApp1.Models
 {
 	
-	internal class Address
+	public class Address
 	{
 
 		public string? City { get; set; }

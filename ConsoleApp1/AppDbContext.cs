@@ -19,6 +19,7 @@ namespace ConsoleApp1
 			optionsBuilder.UseSqlServer("Server=.;Database=EFCore01;Trusted_Connection=True;TrustServerCertificate = true");
 
 			//optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+			optionsBuilder.UseLazyLoadingProxies();
 		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -72,13 +73,13 @@ namespace ConsoleApp1
 
 
 
-			modelBuilder.Entity<Customer>().HasData(
+			//modelBuilder.Entity<Customer>().HasData(
 
 
-				new Customer() { CustomerId = 1, Name = "Customer 01" },
-				new Customer() { CustomerId = 2, Name = "Customer 02" },
-				new Customer() { CustomerId = 3, Name = "Customer 03" }
-				);
+			//	new Customer() { CustomerId = 1, Name = "Customer 01" },
+			//	new Customer() { CustomerId = 2, Name = "Customer 02" },
+			//	new Customer() { CustomerId = 3, Name = "Customer 03" }
+			//	);
 
 
 

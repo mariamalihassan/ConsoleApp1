@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ConsoleApp1.Models
 {
 	//[PrimaryKey(nameof())]
-	internal class CustomerService
+	public class CustomerService
 	{
 		
 		public int CustomerId { get; set; }
@@ -18,5 +18,6 @@ namespace ConsoleApp1.Models
 		
 		public int ServiceId { get; set; }
 		public Service Service { get; set; }
+		public int? Cost { get; set; }
 	}
 }
