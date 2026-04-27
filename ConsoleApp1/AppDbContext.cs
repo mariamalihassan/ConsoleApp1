@@ -19,7 +19,7 @@ namespace ConsoleApp1
 			optionsBuilder.UseSqlServer("Server=.;Database=EFCore01;Trusted_Connection=True;TrustServerCertificate = true");
 
 			//optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-			optionsBuilder.UseLazyLoadingProxies();
+			//optionsBuilder.UseLazyLoadingProxies();
 		}
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

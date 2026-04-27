@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.ComponentModel.DataAnnotations;
 
 namespace ConsoleApp1
@@ -219,8 +220,7 @@ namespace ConsoleApp1
 			//} 
 			#endregion
 
-			//var customer = dbContext.Customers.Include(x => x.Orders)
-			//	.Include(x => x.CustomerServices).AsSplitQuery();
+
 
 
 			#region Explicitloading
@@ -250,12 +250,141 @@ namespace ConsoleApp1
 			#endregion
 
 
+			#region LAzy
 			//var order = dbContext.Orders.FirstOrDefault(x => x.OrderId == 1);
 			//if(order != null)
 			//{
 			//	Console.WriteLine($"Name {order.Name}");
 			//	Console.WriteLine($"Order customername {order.OrderCustomer.Name}");
+			//} 
+			#endregion
+
+			#region Inner Join 
+
+			//var result = dbContext.Orders.Join(dbContext.Customers, o => o.CusId, c => c.CustomerId, (o, c) => new
+			//{
+			//	OrderName = o.Name,
+			//	CustomerName = c.Name
+			//});
+
+			//result= from o in dbContext.Orders
+			//		join C in dbContext.Customers
+			//		on o.CusId equals C.CustomerId
+			//		select new
+			//		{
+			//			OrderName = o.Name,
+			//			CustomerName = C.Name
+			//		};
+
+			//foreach (var item in result)
+			//{
+			//	Console.WriteLine(item);
+
 			//}
+
+
+
+
+
+
+
+			#endregion
+
+			#region Group Join 
+
+			#region Example 01
+
+
+			//var result = dbContext.Customers.GroupJoin(dbContext.Orders, c => c.CustomerId, o => o.CusId, (c, o) => new
+			//{
+			//	customerName = c.Name,
+			//	Orders = o
+			//});
+
+			//foreach (var item in result)
+			//{
+			//	Console.WriteLine(item.customerName);
+			//	foreach (var order in item.Orders)
+			//	{
+			//		Console.WriteLine($"OrderName {order.Name}");
+			//	}
+			//}
+
+
+			#endregion
+
+			#region Example 02
+
+			#endregion
+
+			#region Query Syntax
+
+
+
+			#endregion
+
+			#endregion
+
+			#region Left Join 
+
+			//var result = dbContext.Customers.LeftJoin(dbContext.Orders, c => c.CustomerId, o => o.CusId, (c, o) => new
+			//{
+			//	Customername = c.Name,
+			//	OrderNumber = o.OrderId
+
+			//});
+
+
+			#region Left Join Pre .Net 10
+
+
+
+			//var result = dbContext.Customers.GroupJoin(dbContext.Orders, c => c.CustomerId, o => o.CusId, (c, o) => new
+			//{
+			//	customername= c.Name,
+			//	orders=o
+			//}).SelectMany(x => x.orders.DefaultIfEmpty(), (x, o) => new
+			//{
+			//	customername = x.customername,
+			//	ordernumber= o==null?0 :o.OrderId
+			//});
+
+
+			//foreach (var item in result)
+			//{
+			//	Console.WriteLine($"CustomerName {item.customername} OrderNumber {item.ordernumber}");
+			//}
+
+			#endregion
+
+
+
+
+			#endregion
+
+			#region Cross Join 
+
+			//var result= dbContext.Customers.SelectMany(c=>dbContext.Orders, (c, o) => new
+			//{
+			//	CustomerName = c.Name,
+			//	OrderName = o.Name
+			//});
+
+			//result= from c in dbContext.Customers
+			//		from o  in dbContext.Orders
+			//		select new
+			//		{
+			//			CustomerName = c.Name,
+			//			OrderName = o.Name
+			//		};
+			//foreach (var item in result)
+			//{
+			//	Console.WriteLine(item);
+			//}
+
+
+
+			#endregion
 
 
 
